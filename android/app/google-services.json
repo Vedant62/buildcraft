@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "956510080496",
+    "project_id": "buildcraft-6a87d",
+    "storage_bucket": "buildcraft-6a87d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:956510080496:android:5f1f79baaca7eaf874e135",
+        "android_client_info": {
+          "package_name": "com.buildcraft.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBN-Lvlyxnrp3WwCLTHMYpLReWguqQBD-A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
