@@ -1,6 +1,5 @@
-import 'package:buildcraft/pages/forms/sign_in.dart';
+
 import 'package:buildcraft/services/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 final _formKey = GlobalKey<FormState>();
@@ -16,13 +15,14 @@ class SignUpForm extends StatefulWidget {
 
 class _SignUpFormState extends State<SignUpForm> {
   FirebaseAuthService firebaseAuthService = FirebaseAuthService();
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
+    final snackBarContext = ScaffoldMessenger.of(context);
     return Form(
       key: _formKey,
       child: Column(
@@ -104,8 +104,8 @@ class _SignUpFormState extends State<SignUpForm> {
                       });
                     },
                   ),
-                  label: Text('Password'),
-                  labelStyle: TextStyle(fontWeight: FontWeight.w300)),
+                  label: const Text('Password'),
+                  labelStyle: const TextStyle(fontWeight: FontWeight.w300)),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Enter your new password';
@@ -122,7 +122,7 @@ class _SignUpFormState extends State<SignUpForm> {
                   email: _emailController.text,
                   password: _passwordController.text,
                 );
-                ScaffoldMessenger.of(context).showSnackBar(
+                snackBarContext.showSnackBar(
                   const SnackBar(
                     content: Text('User registered successfully!'),
                   ),

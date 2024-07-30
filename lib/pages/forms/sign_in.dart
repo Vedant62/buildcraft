@@ -12,13 +12,14 @@ class SignInForm extends StatefulWidget {
 
 class _SignInFormState extends State<SignInForm> {
   FirebaseAuthService firebaseAuthService = FirebaseAuthService();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
+    final snackBarContext = ScaffoldMessenger.of(context);
     return Form(
       key: _formKey,
       child: Column(
@@ -97,8 +98,8 @@ class _SignInFormState extends State<SignInForm> {
                   email: _emailController.text,
                   password: _passwordController.text,
                 );
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
+                snackBarContext.showSnackBar(
+                  const SnackBar(
                     content: Text('Signed in successfully'),
                   ),
                 );

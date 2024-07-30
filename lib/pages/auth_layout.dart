@@ -43,7 +43,7 @@ class _AuthLayoutState extends State<AuthLayout> {
         appBar: AppBar(),
         body: firebaseAuthService.authWork(
           //if user logged in
-          authYes: HomePage(),
+          authYes: const HomePage(),
           //if NOT logged in
           authNo: SingleChildScrollView(
             child: SizedBox(
@@ -58,7 +58,7 @@ class _AuthLayoutState extends State<AuthLayout> {
                       child: PageView(
                         onPageChanged: _onPageChanged,
                         controller: _pageController,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         children: [
                           SignUpForm(navigate: () {
                             navigateToSignIn();

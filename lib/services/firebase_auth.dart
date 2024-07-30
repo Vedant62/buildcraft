@@ -16,7 +16,11 @@ class FirebaseAuthService {
 
   Future<void> signUp({required String email, required String password}) async {
     await createUser(email, password);
-    signIn(email: email, password: password);
+    return signIn(email: email, password: password);
+  }
+
+  Future<void> signOut()async{
+    await firebaseAuth.signOut();
   }
 
   StreamBuilder<User?> authWork(
