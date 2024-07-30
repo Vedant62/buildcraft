@@ -1,4 +1,6 @@
 import 'package:buildcraft/pages/forms/sign_in.dart';
+import 'package:buildcraft/services/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 final _formKey = GlobalKey<FormState>();
@@ -13,14 +15,15 @@ class SignUpForm extends StatefulWidget {
 }
 
 class _SignUpFormState extends State<SignUpForm> {
-  // TextEditingController _emailController = TextEditingController();
-  // TextEditingController _passwordController = TextEditingController();
+  FirebaseAuthService firebaseAuthService = FirebaseAuthService();
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
   bool _obscureText = true;
+
   @override
   Widget build(BuildContext context) {
-
     return Form(
-
       key: _formKey,
       child: Column(
         children: [
@@ -41,6 +44,7 @@ class _SignUpFormState extends State<SignUpForm> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
+              controller: _nameController,
               keyboardType: TextInputType.name,
               style: Theme.of(context)
                   .textTheme
@@ -60,6 +64,7 @@ class _SignUpFormState extends State<SignUpForm> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
+              controller: _emailController,
               keyboardType: TextInputType.emailAddress,
               style: Theme.of(context)
                   .textTheme
@@ -79,6 +84,7 @@ class _SignUpFormState extends State<SignUpForm> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
+              controller: _passwordController,
               keyboardType: TextInputType.text,
               obscureText: _obscureText,
               style: Theme.of(context)
@@ -88,7 +94,7 @@ class _SignUpFormState extends State<SignUpForm> {
               decoration: InputDecoration(
                   suffixIcon: IconButton(
                     icon: Icon(
-                      _obscureText? Icons.visibility_off : Icons.visibility,
+                      _obscureText ? Icons.visibility_off : Icons.visibility,
                       color: Theme.of(context).colorScheme.tertiary,
                       size: 20,
                     ),
@@ -109,17 +115,22 @@ class _SignUpFormState extends State<SignUpForm> {
             ),
           ),
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
+
               if (_formKey.currentState!.validate()) {
+                await firebaseAuthService.signUp(
+                  email: _emailController.text,
+                  password: _passwordController.text,
+                );
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
-                    content: Text('Works!'),
+                    content: Text('User registered successfully!'),
                   ),
                 );
               }
             },
             style: ElevatedButton.styleFrom(elevation: 5),
-            child: const Text('Submit'),
+            child: const Text('Sign up'),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 6.0),
@@ -135,7 +146,7 @@ class _SignUpFormState extends State<SignUpForm> {
                   ),
                 ),
                 TextButton(
-                  onPressed: ()=>widget.navigate(),
+                  onPressed: () => widget.navigate(),
                   child: const Text(
                     'Sign in',
                     style: TextStyle(

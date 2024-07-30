@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: AuthLayout(),
+      home: const AuthLayout(),
       theme: FlexThemeData.light(
         colors: const FlexSchemeColor(
           primary: Color(0xff065808),
@@ -74,7 +74,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         swapLegacyOnMaterial3: true,
       ),
-//       themeMode: ThemeMode.light,
+      themeMode: ThemeMode.system,
     );
   }
 }
