@@ -1,4 +1,5 @@
 import 'package:buildcraft/services/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SignInForm extends StatefulWidget {
@@ -85,7 +86,7 @@ class _SignInFormState extends State<SignInForm> {
                   labelStyle: const TextStyle(fontWeight: FontWeight.w300)),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Enter your new password';
+                  return 'Enter your password';
                 }
                 return null;
               },
@@ -94,15 +95,75 @@ class _SignInFormState extends State<SignInForm> {
           ElevatedButton(
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
-                await firebaseAuthService.signIn(
-                  email: _emailController.text,
-                  password: _passwordController.text,
-                );
-                snackBarContext.showSnackBar(
-                  const SnackBar(
-                    content: Text('Signed in successfully'),
-                  ),
-                );
+                showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (context) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    });
+                try {
+                  await firebaseAuthService.signIn(
+                    email: _emailController.text,
+                    password: _passwordController.text,
+                  );
+                  Navigator.of(context).pop(); // Dismiss the loading dialog
+                  snackBarContext.showSnackBar(
+                    const SnackBar(
+                      content: Text('Signed in successfully'),
+                    ),
+                  );
+                } on FirebaseAuthException catch (e) {
+                  Navigator.of(context).pop(); // Dismiss the loading dialog
+                  String errorMessage;
+                  switch (e.code) {
+                    case "user-not-found":
+                      errorMessage = "No user found with this email.";
+                      break;
+                    case "wrong-password":
+                      errorMessage = "Incorrect password.";
+                      break;
+                    case "invalid-email":
+                      errorMessage = "Invalid email address.";
+                      break;
+                    case "user-disabled":
+                      errorMessage = "This account has been disabled.";
+                      break;
+                    default:
+                      errorMessage = "An error occurred: ${e.message}";
+                  }
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text('Error'),
+                          content: Text(errorMessage),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(),
+                              child: const Text('OK'),
+                            ),
+                          ],
+                        );
+                      });
+                } catch (e) {
+                  Navigator.of(context).pop(); // Dismiss the loading dialog
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text('Error'),
+                          content: Text('An unexpected error occurred: $e'),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(),
+                              child: const Text('OK'),
+                            ),
+                          ],
+                        );
+                      });
+                }
               }
             },
             style: ElevatedButton.styleFrom(elevation: 5),
