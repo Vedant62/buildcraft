@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class User {
-  User(
+   User(
       {required this.id,
       required this.name,
       required this.createdAt,

@@ -14,18 +14,18 @@ class AuthLayout extends StatefulWidget {
 class _AuthLayoutState extends State<AuthLayout> {
   FirebaseAuthService firebaseAuthService = FirebaseAuthService();
   final PageController _pageController = PageController(initialPage: 1);
-  int _index = 0;
+  int _index = 1;
 
   void navigateToSignIn() {
     if (_index == 0) {
-      _pageController.nextPage(
+      _pageController.animateToPage(1,
           duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
     }
   }
 
   void navigateToSignUp() {
     if (_index == 1) {
-      _pageController.previousPage(
+      _pageController.animateToPage(0,
           duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
     }
   }

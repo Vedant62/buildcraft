@@ -21,6 +21,7 @@ class _SignInFormState extends State<SignInForm> {
   @override
   Widget build(BuildContext context) {
     final snackBarContext = ScaffoldMessenger.of(context);
+    final navContext = Navigator.of(context);
     return Form(
       key: _formKey,
       child: Column(
@@ -108,14 +109,14 @@ class _SignInFormState extends State<SignInForm> {
                     email: _emailController.text,
                     password: _passwordController.text,
                   );
-                  Navigator.of(context).pop(); // Dismiss the loading dialog
+                  navContext.pop(); // Dismiss the loading dialog
                   snackBarContext.showSnackBar(
                     const SnackBar(
                       content: Text('Signed in successfully'),
                     ),
                   );
                 } on FirebaseAuthException catch (e) {
-                  Navigator.of(context).pop(); // Dismiss the loading dialog
+                  navContext.pop(); // Dismiss the loading dialog
                   String errorMessage;
                   switch (e.code) {
                     case "user-not-found":
@@ -148,7 +149,7 @@ class _SignInFormState extends State<SignInForm> {
                         );
                       });
                 } catch (e) {
-                  Navigator.of(context).pop(); // Dismiss the loading dialog
+                  navContext.pop(); // Dismiss the loading dialog
                   showDialog(
                       context: context,
                       builder: (context) {
