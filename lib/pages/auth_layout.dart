@@ -13,7 +13,7 @@ class AuthLayout extends StatefulWidget {
 
 class _AuthLayoutState extends State<AuthLayout> {
   FirebaseAuthService firebaseAuthService = FirebaseAuthService();
-  final PageController _pageController = PageController(initialPage: 0);
+  final PageController _pageController = PageController(initialPage: 1);
   int _index = 0;
 
   void navigateToSignIn() {
@@ -40,7 +40,6 @@ class _AuthLayoutState extends State<AuthLayout> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: AppBar(),
         body: firebaseAuthService.authWork(
           //if user logged in
           authYes: const HomePage(),
@@ -60,12 +59,18 @@ class _AuthLayoutState extends State<AuthLayout> {
                         controller: _pageController,
                         physics: const NeverScrollableScrollPhysics(),
                         children: [
-                          SignUpForm(navigate: () {
-                            navigateToSignIn();
-                          }),
-                          SignInForm(navigate: () {
-                            navigateToSignUp();
-                          }),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 40.0),
+                            child: SignUpForm(navigate: () {
+                              navigateToSignIn();
+                            }),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 40.0),
+                            child: SignInForm(navigate: () {
+                              navigateToSignUp();
+                            }),
+                          ),
                         ],
                       ),
                     ),

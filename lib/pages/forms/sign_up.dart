@@ -1,5 +1,6 @@
 
 import 'package:buildcraft/services/firebase_auth.dart';
+import 'package:buildcraft/services/firestore.dart';
 import 'package:flutter/material.dart';
 
 final _formKey = GlobalKey<FormState>();
@@ -15,6 +16,7 @@ class SignUpForm extends StatefulWidget {
 
 class _SignUpFormState extends State<SignUpForm> {
   FirebaseAuthService firebaseAuthService = FirebaseAuthService();
+  FirestoreService firestoreService = FirestoreService();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -122,6 +124,7 @@ class _SignUpFormState extends State<SignUpForm> {
                   email: _emailController.text,
                   password: _passwordController.text,
                 );
+                // await firestoreService
                 snackBarContext.showSnackBar(
                   const SnackBar(
                     content: Text('User registered successfully!'),

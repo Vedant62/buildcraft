@@ -1,3 +1,4 @@
+import 'package:buildcraft/services/firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -11,7 +12,9 @@ class FirebaseAuthService {
 
   Future<void> createUser(String email, String password) {
     return firebaseAuth.createUserWithEmailAndPassword(
-        email: email, password: password);
+      email: email,
+      password: password,
+    );
   }
 
   Future<void> signUp({required String email, required String password}) async {
@@ -19,7 +22,7 @@ class FirebaseAuthService {
     return signIn(email: email, password: password);
   }
 
-  Future<void> signOut()async{
+  Future<void> signOut() async {
     await firebaseAuth.signOut();
   }
 
