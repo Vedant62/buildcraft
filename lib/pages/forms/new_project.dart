@@ -9,6 +9,11 @@ class NewProjectForm extends StatefulWidget {
 
 class _NewProjectFormState extends State<NewProjectForm> {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _titleController =  TextEditingController();
+  final TextEditingController _descController =  TextEditingController();
+  DateTimeRange _selectedDates =
+      DateTimeRange(start: DateTime.now(), end: DateTime.utc(2026));
+  TimeOfDay _selectedTime = TimeOfDay.now();
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +24,7 @@ class _NewProjectFormState extends State<NewProjectForm> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
-              // controller: _emailController,
+              controller: _titleController,
               keyboardType: TextInputType.name,
               style: Theme.of(context)
                   .textTheme
@@ -39,7 +44,7 @@ class _NewProjectFormState extends State<NewProjectForm> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
-              // controller: _emailController,
+              controller: _descController,
               keyboardType: TextInputType.text,
               style: Theme.of(context)
                   .textTheme
@@ -75,15 +80,19 @@ class _NewProjectFormState extends State<NewProjectForm> {
                           elevation: 5,
                           backgroundColor:
                               Theme.of(context).colorScheme.primaryContainer),
-                      onPressed: () {
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return DatePickerDialog(
-                                firstDate: DateTime.now(),
-                                lastDate: DateTime.utc(2028),
-                              );
-                            });
+                      onPressed: () async {
+                        final DateTimeRange? dateTimeRange =
+                            await showDateRangePicker(
+                          context: context,
+                          firstDate: DateTime.now(),
+                          lastDate: DateTime(2030),
+                        );
+                        if (dateTimeRange != null) {
+                          setState(() {
+                            _selectedDates = dateTimeRange;
+                          });
+                          print(_selectedDates.duration.inDays);
+                        }
                       },
                       child: Text(
                         'Select Duration',
@@ -114,13 +123,18 @@ class _NewProjectFormState extends State<NewProjectForm> {
                     style: ElevatedButton.styleFrom(
                       elevation: 5,
                     ),
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return TimePickerDialog(
-                                initialTime: TimeOfDay.now());
-                          });
+                    onPressed: () async {
+                      TimeOfDay? time = await showTimePicker(
+
+                        context: context,
+                        initialTime: TimeOfDay.now(),
+                      );
+                      if(time!=null){
+                        setState(() {
+                          _selectedTime = time;
+                        });
+                      }
+                      print('check in time: $time');
                     },
                     child: Text(
                       'Select time',
@@ -139,9 +153,14 @@ class _NewProjectFormState extends State<NewProjectForm> {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 elevation: 7,
-                backgroundColor: Theme.of(context).colorScheme.onPrimaryFixedVariant
+                backgroundColor:
+                    Theme.of(context).colorScheme.onPrimaryFixedVariant,
               ),
-              onPressed: () {},
+              onPressed: () async {
+                if(_formKey.currentState!.validate()){
+
+                }
+              },
               child: Text(
                 'Create project',
                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(

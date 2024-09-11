@@ -1,5 +1,5 @@
 import 'package:buildcraft/pages/add.dart';
-import 'package:buildcraft/pages/base/challenges.dart';
+import 'package:buildcraft/pages/base/projects.dart';
 import 'package:buildcraft/pages/base/home.dart';
 import 'package:buildcraft/pages/base/profile.dart';
 import 'package:buildcraft/services/firebase_auth.dart';
@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> _pages = [
     const Home(),
-    const Challenges(),
+    const Projects(),
     const Profile()
   ];
   FirebaseAuthService firebaseAuthService = FirebaseAuthService();
