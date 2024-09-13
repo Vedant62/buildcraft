@@ -65,6 +65,31 @@ class _IndividualProjectState extends State<IndividualProject> {
           )
         ],
       ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Placeholder(fallbackHeight: 70, fallbackWidth: MediaQuery.sizeOf(context).width*0.9,),
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text('checklist', style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 30, fontWeight: FontWeight.w300, ),),
+                ),
+              ),
+              Placeholder(fallbackHeight: 270, fallbackWidth: MediaQuery.sizeOf(context).width*0.9,),
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text('updates', style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 30, fontWeight: FontWeight.w300,),),
+                ),
+              ),
+              Placeholder(fallbackHeight: 700, fallbackWidth: MediaQuery.sizeOf(context).width*0.9,),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
