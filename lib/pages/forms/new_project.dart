@@ -1,6 +1,6 @@
 import 'package:buildcraft/models/project.dart';
 import 'package:buildcraft/services/firestore.dart';
-import 'package:buildcraft/utils/id.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -225,13 +225,13 @@ class _NewProjectFormState extends State<NewProjectForm> {
                     Theme.of(context).colorScheme.onPrimaryFixedVariant,
               ),
               onPressed: () async {
+                String? userId = FirebaseAuth.instance.currentUser!.uid;
                 if (_formKey.currentState!.validate()) {
                   await firestoreService.createProject(
                     Project(
                       title: _titleController.text,
-                      id: IdGen.id(),
                       description: _descController.text,
-                      userId: IdGen.id(),
+                      userId: userId,
                       startDate: _selectedDates!.start,
                       endDate: _selectedDates!.end,
                       checkInTime: _selectedTime!,

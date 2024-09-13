@@ -28,8 +28,8 @@ class _AddState extends State<Add> {
               padding: const EdgeInsets.all(8.0),
               child: Text('What are you planning to work on?', style: Theme.of(context).textTheme.titleMedium!.copyWith(fontSize: 18, fontWeight: FontWeight.w300),),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
               child: NewProjectForm(),
             )
         
