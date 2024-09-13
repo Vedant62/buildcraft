@@ -2,15 +2,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Project {
-  const Project(
-      {required this.title,
-      required this.id,
-      required this.description,
-      required this.userId,
-      required this.startDate,
-      required this.endDate,
-      required this.checkInTime,
-      required this.createdAt});
+  const Project({
+    required this.title,
+    required this.id,
+    required this.description,
+    required this.userId,
+    required this.startDate,
+    required this.endDate,
+    required this.checkInTime,
+    required this.createdAt,
+  });
 
   final String id;
   final String title;
@@ -30,7 +31,7 @@ class Project {
       userId: data['userId'] ?? '',
       startDate: (data['startDate'] as Timestamp).toDate(),
       endDate: (data['endDate'] as Timestamp).toDate(),
-      checkInTime: data['checkInTime'] ?? '',
+      checkInTime: _parseTimeOfDay(data['checkInTime'] ?? ''),
       createdAt: (data['createdAt'] as Timestamp).toDate(),
     );
   }
@@ -42,8 +43,20 @@ class Project {
       'userId': userId,
       'startDate': Timestamp.fromDate(startDate),
       'endDate': Timestamp.fromDate(endDate),
-      'checkInTime': checkInTime,
+      'checkInTime': _formatTimeOfDay(checkInTime),
       'createdAt': Timestamp.fromDate(createdAt),
     };
+  }
+
+  static TimeOfDay _parseTimeOfDay(String timeString) {
+    final parts = timeString.split(':');
+    if (parts.length == 2) {
+      return TimeOfDay(hour: int.parse(parts[0]), minute: int.parse(parts[1]));
+    }
+    return TimeOfDay.now(); // Default value if parsing fails
+  }
+
+  static String _formatTimeOfDay(TimeOfDay time) {
+    return '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
   }
 }

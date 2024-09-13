@@ -132,12 +132,12 @@ class _SignUpFormState extends State<SignUpForm> {
                         );
                       });
                   try {
-                    await firebaseAuthService.signUp(
+                    UserCredential userCredential =  await firebaseAuthService.signUp(
                       email: _emailController.text,
                       password: _passwordController.text,
                     );
                     await firestoreService.createUser(MyUser.User(
-                        id: IdGen.id(),
+                        id: userCredential.user!.uid,
                         name: _nameController.text,
                         createdAt: DateTime.now(),
                         email: _emailController.text));

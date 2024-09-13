@@ -5,21 +5,21 @@ import 'package:flutter/cupertino.dart';
 class FirebaseAuthService {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
-  Future<void> signIn({required String email, required String password}) {
+  Future<UserCredential> signIn({required String email, required String password}) {
     return firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
   }
 
-  Future<void> createUser(String email, String password) {
+  Future<UserCredential> createUser(String email, String password) {
     return firebaseAuth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
   }
 
-  Future<void> signUp({required String email, required String password}) async {
-    await createUser(email, password);
-    return signIn(email: email, password: password);
+  Future<UserCredential> signUp({required String email, required String password}) async {
+    UserCredential userCredential = await createUser(email, password);
+    return userCredential;
   }
 
   Future<void> signOut() async {

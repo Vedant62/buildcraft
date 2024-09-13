@@ -3,6 +3,7 @@ import 'package:buildcraft/pages/base/projects.dart';
 import 'package:buildcraft/pages/base/home.dart';
 import 'package:buildcraft/pages/base/profile.dart';
 import 'package:buildcraft/services/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,6 +15,15 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
+  FirebaseAuthService _firebaseAuthService = FirebaseAuthService();
+  String? currentUserId;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    currentUserId = FirebaseAuth.instance.currentUser?.uid;
+  }
 
   void _onTap(int i) {
     setState(() {
@@ -21,15 +31,15 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  final List<Widget> _pages = [
-    const Home(),
-    const Projects(),
-    const Profile()
-  ];
-  FirebaseAuthService firebaseAuthService = FirebaseAuthService();
-
   @override
   Widget build(BuildContext context) {
+    final List<Widget> _pages = [
+      const Home(),
+      Projects(
+        userId: currentUserId ?? '',
+      ),
+      const Profile()
+    ];
     final snackBarContext = ScaffoldMessenger.of(context);
     return Scaffold(
       floatingActionButton: _currentIndex == 0
@@ -83,7 +93,7 @@ class _HomePageState extends State<HomePage> {
                   icon: const Icon(Icons.logout_rounded),
                   style: ElevatedButton.styleFrom(elevation: 7),
                   onPressed: () async {
-                    await firebaseAuthService.signOut();
+                    await _firebaseAuthService.signOut();
                     snackBarContext.showSnackBar(const SnackBar(
                       content: Text('Successfully logged out!'),
                     ));

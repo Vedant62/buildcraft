@@ -22,8 +22,9 @@ class FirestoreService {
     return doc.exists ? User.fromFirestore(doc) : null;
   }
 
-  Future<void> createProject(Project project) async {
-    await _projects.doc(project.id).set(project.toFirestore());
+  Future<String> createProject(Project project) async {
+    DocumentReference docRef = await _projects.add(project.toFirestore());
+    return docRef.id;
   }
 
   Stream<List<Project>> getUserProjects(String userId) {
@@ -32,8 +33,9 @@ class FirestoreService {
             snapshot.docs.map((doc) => Project.fromFirestore(doc)).toList());
   }
 
-  Future<void> createTask(Task task) async {
-    await _tasks.doc(task.id).set(task.toFirestore());
+  Future<String> createTask(Task task) async {
+    DocumentReference docRef = await _tasks.add(task.toFirestore());
+    return docRef.id;
   }
 
   Stream<List<Task>> getProjectTasks(String projectId) {
