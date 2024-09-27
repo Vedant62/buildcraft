@@ -2,14 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Task {
   Task({
-    required this.id,
+    this.id,
     required this.title,
     required this.projectId,
     this.isCompleted = false,
     required this.createdAt,
   });
 
-  final String id;
+  String? id;
   final String projectId;
   final String title;
   bool isCompleted;

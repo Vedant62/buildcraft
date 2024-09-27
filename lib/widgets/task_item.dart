@@ -34,7 +34,7 @@ class _TaskItemState extends State<TaskItem> {
           visualDensity: VisualDensity(horizontal: -3.5, vertical: -0.5),
           onChanged: (value) async {
             try {
-              await firestoreService.toggleTaskCompletion(_task.id);
+              await firestoreService.toggleTaskCompletion(_task.id!);
               setState(() {
                 _task.isCompleted = !_task.isCompleted;
               });
