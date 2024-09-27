@@ -1,3 +1,4 @@
+import 'package:buildcraft/pages/individual_project.dart';
 import 'package:buildcraft/utils/dateFormat.dart';
 import 'package:buildcraft/utils/timeFormat.dart';
 import 'package:flutter/material.dart';
@@ -25,31 +26,46 @@ class _ProjectCardState extends State<ProjectCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        width: MediaQuery.sizeOf(context).width * 0.9,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
-            color: Theme.of(context).colorScheme.primaryContainer),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Text(_project.title, style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Theme.of(context).colorScheme.onPrimaryContainer),),
-                  Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Icon(Icons.arrow_forward_rounded),
-                  )
-                ],
-              ),
-              Text("Created at: ${formatDateClean(_project.createdAt)}"),
-              Text("Daily check-in time: ${formatTimeOfDay(_project.checkInTime)}"),
-              Text("ends on ${formatDateClean(_project.endDate)}"),
-            ],
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (ctx) => IndividualProject(project: _project,),
+          ),
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          width: MediaQuery.sizeOf(context).width * 0.9,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: Theme.of(context).colorScheme.primaryContainer),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      _project.title,
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          color:
+                              Theme.of(context).colorScheme.onPrimaryContainer),
+                    ),
+                    const Spacer(),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Icon(Icons.arrow_forward_rounded),
+                    )
+                  ],
+                ),
+                Text("Created at: ${formatDateClean(_project.createdAt)}"),
+                Text(
+                    "Daily check-in time: ${formatTimeOfDay(_project.checkInTime)}"),
+                Text("ends on ${formatDateClean(_project.endDate)}"),
+              ],
+            ),
           ),
         ),
       ),

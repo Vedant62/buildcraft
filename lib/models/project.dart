@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 class Project {
   const Project({
     required this.title,
-    required this.id,
+    this.id,
+    // required this.id,
     required this.description,
     required this.userId,
     required this.startDate,
@@ -13,7 +14,7 @@ class Project {
     required this.createdAt,
   });
 
-  final String id;
+  final String? id;
   final String title;
   final String description;
   final String userId;

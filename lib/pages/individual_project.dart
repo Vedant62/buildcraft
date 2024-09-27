@@ -1,3 +1,4 @@
+import 'package:buildcraft/widgets/tasks_card.dart';
 import 'package:flutter/material.dart';
 
 import '../models/project.dart';
@@ -78,7 +79,7 @@ class _IndividualProjectState extends State<IndividualProject> {
                   child: Text('checklist', style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 30, fontWeight: FontWeight.w300, ),),
                 ),
               ),
-              Placeholder(fallbackHeight: 270, fallbackWidth: MediaQuery.sizeOf(context).width*0.9,),
+              Center(child: TasksCard(projectId: _project.id!,)),
               Center(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),

@@ -43,4 +43,14 @@ class FirestoreService {
         (snapshot) =>
             snapshot.docs.map((doc) => Task.fromFirestore(doc)).toList());
   }
+
+  Future<void> toggleTaskCompletion(String taskId) async {
+    DocumentSnapshot taskDoc = await _tasks.doc(taskId).get();
+    if (taskDoc.exists) {
+      bool currentStatus = taskDoc.get('isCompleted') ?? false;
+      await _tasks.doc(taskId).update({'isCompleted': !currentStatus});
+    } else {
+      throw Exception('Task not found');
+    }
+  }
 }

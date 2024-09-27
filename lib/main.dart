@@ -21,9 +21,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+
       debugShowCheckedModeBanner: false,
       home: const AuthLayout(),
       theme: FlexThemeData.light(
+
         colors: const FlexSchemeColor(
           primary: Color(0xff065808),
           primaryContainer: Color(0xff9ee29f),
@@ -49,6 +51,7 @@ class MyApp extends StatelessWidget {
         swapLegacyOnMaterial3: true,
         // To use the Playground font, add GoogleFonts package and uncomment
         // fontFamily: GoogleFonts.notoSans().fontFamily,
+
       ),
       darkTheme: FlexThemeData.dark(
         colors: const FlexSchemeColor(
@@ -75,6 +78,7 @@ class MyApp extends StatelessWidget {
         swapLegacyOnMaterial3: true,
       ),
       themeMode: ThemeMode.light,
+
     );
   }
 }
