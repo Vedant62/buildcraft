@@ -113,7 +113,7 @@ class _IndividualProjectState extends State<IndividualProject> {
               )),
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(vertical: 12.0),
                   child: Container(
                     color: Theme.of(context).colorScheme.tertiaryContainer,
                     child: Padding(
@@ -129,10 +129,7 @@ class _IndividualProjectState extends State<IndividualProject> {
                   ),
                 ),
               ),
-              Placeholder(
-                fallbackHeight: 700,
-                fallbackWidth: MediaQuery.sizeOf(context).width * 0.9,
-              ),
+
             ],
           ),
         ),
