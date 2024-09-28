@@ -37,7 +37,7 @@ class Update {
 }
 
 enum Status {
-  behindOfTime,
+  late,
   onTime,
-  aheadOfTime,
+  ahead,
 }
