@@ -19,6 +19,7 @@ class _TasksCardState extends State<TasksCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 0,
       color: Theme.of(context).cardColor,
       child: Container(
         height: MediaQuery.sizeOf(context).height * 0.35,
@@ -26,14 +27,14 @@ class _TasksCardState extends State<TasksCard> {
         child: Column(
           children: [
             Expanded(child: Tasks(projectId: widget.projectId)),
-            OutlinedButton.icon(
-              // color: Theme.of(context).colorScheme.primary,
-              onPressed: () {
-                openDialog(context, taskTitle, firestoreService, widget.projectId);
-              },
-              icon: Icon(Icons.add),
-              style: ElevatedButton.styleFrom(elevation: 5),
-              label: Text('Add task'),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: OutlinedButton(
+                onPressed: () {
+                  openDialog(context, taskTitle, firestoreService, widget.projectId);
+                },
+                child: Text('Add task', style: Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 16, fontWeight: FontWeight.w300) ,),
+              ),
             )
           ],
         ),
@@ -56,6 +57,8 @@ Future openDialog(BuildContext context, TextEditingController taskTitle, Firesto
             iconAlignment: IconAlignment.end,
             onPressed: () {
               firestoreService.createTask(Task(title: taskTitle.text, projectId: projectId, createdAt: DateTime.now()));
+              taskTitle.clear();
+              Navigator.of(context).pop();
             },
             child: Text('Save', style: Theme.of(context).textTheme.labelMedium!.copyWith(fontWeight: FontWeight.w300, fontSize: 14),)
           )
