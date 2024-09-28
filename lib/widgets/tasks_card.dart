@@ -19,7 +19,7 @@ class _TasksCardState extends State<TasksCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 0,
+      elevation: 5,
       color: Theme.of(context).cardColor,
       child: Container(
         height: MediaQuery.sizeOf(context).height * 0.35,
@@ -31,7 +31,43 @@ class _TasksCardState extends State<TasksCard> {
               padding: const EdgeInsets.all(8.0),
               child: OutlinedButton(
                 onPressed: () {
-                  openDialog(context, taskTitle, firestoreService, widget.projectId);
+                  Future openDialog() =>
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                          title: Text(
+                            'New task',
+                            style: Theme.of(context).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w300),
+                          ),
+                          actions: [
+                            OutlinedButton(
+                                iconAlignment: IconAlignment.end,
+                                onPressed: () {
+                                  setState(() {
+                                    firestoreService.createTask(Task(title: taskTitle.text, projectId: widget.projectId, createdAt: DateTime.now()));
+                                    taskTitle.clear();
+                                    Navigator.of(context).pop();
+                                  });
+
+                                },
+                                child: Text('Save', style: Theme.of(context).textTheme.labelMedium!.copyWith(fontWeight: FontWeight.w300, fontSize: 14),)
+                            )
+                          ],
+                          content: TextField(
+                            decoration: InputDecoration(
+                              hintText: "e.g. Review today's code",
+                              hintStyle: Theme.of(context).textTheme.labelLarge!.copyWith(
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ),
+                            controller: taskTitle,
+                          ),
+                        ),
+                      );
+
+                  openDialog();
                 },
                 child: Text('Add task', style: Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 16, fontWeight: FontWeight.w300) ,),
               ),
@@ -43,35 +79,4 @@ class _TasksCardState extends State<TasksCard> {
   }
 }
 
-Future openDialog(BuildContext context, TextEditingController taskTitle, FirestoreService firestoreService, String projectId) =>
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        title: Text(
-          'New task',
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w300),
-        ),
-        actions: [
-          OutlinedButton(
-            iconAlignment: IconAlignment.end,
-            onPressed: () {
-              firestoreService.createTask(Task(title: taskTitle.text, projectId: projectId, createdAt: DateTime.now()));
-              taskTitle.clear();
-              Navigator.of(context).pop();
-            },
-            child: Text('Save', style: Theme.of(context).textTheme.labelMedium!.copyWith(fontWeight: FontWeight.w300, fontSize: 14),)
-          )
-        ],
-        content: TextField(
-          decoration: InputDecoration(
-            hintText: "e.g. Review today's code",
-            hintStyle: Theme.of(context).textTheme.labelLarge!.copyWith(
-                  fontStyle: FontStyle.italic,
-                  fontWeight: FontWeight.w300,
-                ),
-          ),
-          controller: taskTitle,
-        ),
-      ),
-    );
+
