@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/project.dart';
 import '../models/task.dart';
+import '../models/update.dart';
 import '../models/user.dart';
 
 class FirestoreService {
@@ -12,6 +13,8 @@ class FirestoreService {
       FirebaseFirestore.instance.collection("projects");
   final CollectionReference _tasks =
       FirebaseFirestore.instance.collection("tasks");
+  final CollectionReference _updates =
+  FirebaseFirestore.instance.collection("updates");
 
   Future<void> createUser(User user) async {
     await _users.doc(user.id).set(user.toFirestore());
@@ -53,4 +56,20 @@ class FirestoreService {
       throw Exception('Task not found');
     }
   }
+
+  Future<String> addUpdate(Update update) async {
+    DocumentReference docRef = await _updates.add(update.toFirestore());
+    return docRef.id;
+  }
+
+  Stream<List<Update>> getUpdates(String projectId) {
+    return _updates
+        .where("projectId", isEqualTo: projectId)
+        .orderBy("dateTime", descending: true)
+        .snapshots()
+        .map((snapshot) =>
+        snapshot.docs.map((doc) => Update.fromFirestore(doc)).toList());
+  }
+
+
 }
