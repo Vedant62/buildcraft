@@ -1,3 +1,4 @@
+import 'package:buildcraft/pages/add_update_page.dart';
 import 'package:buildcraft/widgets/tasks_card.dart';
 import 'package:flutter/material.dart';
 
@@ -113,7 +114,7 @@ class _IndividualProjectState extends State<IndividualProject> {
               )),
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12.0),
+                  padding: const EdgeInsets.only(top: 12.0, bottom: 8),
                   child: Container(
                     color: Theme.of(context).colorScheme.tertiaryContainer,
                     child: Padding(
@@ -129,6 +130,23 @@ class _IndividualProjectState extends State<IndividualProject> {
                   ),
                 ),
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  //Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: OutlinedButton(
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>AddUpdatePage(project: _project,)));
+                      },
+                      child: Text('Add update', style: Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 16, fontWeight: FontWeight.w300) ,),
+                    ),
+                  ),
+
+                ],
+              ),
+
 
             ],
           ),

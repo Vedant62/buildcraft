@@ -14,6 +14,7 @@ class StorageService{
       TaskSnapshot snapshot = await uploadTask;
 
       String downloadUrl = await snapshot.ref.getDownloadURL();
+      print(downloadUrl);
       return downloadUrl;
     } catch (e) {
       print("Encountered this error: $e");
