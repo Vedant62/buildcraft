@@ -1,20 +1,25 @@
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:path/path.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-class StorageService{
+class StorageService {
   final FirebaseStorage firebaseStorage = FirebaseStorage.instance;
 
   Future<String> uploadImage(File file, String projectId) async {
     try {
       String fileName = basename(file.path);
-      Reference storageRef = firebaseStorage.ref().child('project_${projectId}_updates/$fileName');
+      Reference storageRef =
+          firebaseStorage.ref().child('project_${projectId}_updates/$fileName');
 
       UploadTask uploadTask = storageRef.putFile(file);
       TaskSnapshot snapshot = await uploadTask;
 
       String downloadUrl = await snapshot.ref.getDownloadURL();
-      print(downloadUrl);
+
+      if (downloadUrl.isNotEmpty) {
+        print(downloadUrl);
+      }
       return downloadUrl;
     } catch (e) {
       print("Encountered this error: $e");
@@ -46,5 +51,4 @@ class StorageService{
       throw e;
     }
   }
-
 }

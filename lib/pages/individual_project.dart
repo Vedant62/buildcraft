@@ -95,14 +95,17 @@ class _IndividualProjectState extends State<IndividualProject> {
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Container(
                     color: Theme.of(context).colorScheme.tertiaryContainer,
+                    width: MediaQuery.sizeOf(context).width,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'checklist',
-                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w300,
-                            ),
+                      child: Center(
+                        child: Text(
+                          'checklist',
+                          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w300,
+                              ),
+                        ),
                       ),
                     ),
                   ),
@@ -117,13 +120,16 @@ class _IndividualProjectState extends State<IndividualProject> {
                   padding: const EdgeInsets.only(top: 12.0, bottom: 8),
                   child: Container(
                     color: Theme.of(context).colorScheme.tertiaryContainer,
+                    width: MediaQuery.sizeOf(context).width,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'updates',
-                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w300,
+                      child: Center(
+                        child: Text(
+                          'updates',
+                          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w300,
+                          ),
                         ),
                       ),
                     ),

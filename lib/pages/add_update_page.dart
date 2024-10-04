@@ -32,7 +32,7 @@ class _AddUpdatePageState extends State<AddUpdatePage> {
   }
   void pickImage() async {
     final imagePicker = ImagePicker();
-    final image = await imagePicker.pickImage(source: ImageSource.camera);
+    final image = await imagePicker.pickImage(source: ImageSource.values.first);
     if (image == null) {
       return;
     }
