@@ -14,7 +14,7 @@ class FirestoreService {
   final CollectionReference _tasks =
       FirebaseFirestore.instance.collection("tasks");
   final CollectionReference _updates =
-  FirebaseFirestore.instance.collection("updates");
+      FirebaseFirestore.instance.collection("updates");
 
   Future<void> createUser(User user) async {
     await _users.doc(user.id).set(user.toFirestore());
@@ -31,8 +31,12 @@ class FirestoreService {
   }
 
   Stream<List<Project>> getUserProjects(String userId) {
-    return _projects.where("userId", isEqualTo: userId).snapshots().map(
-        (snapshot) =>
+    return _projects
+        .where("userId", isEqualTo: userId)
+        .orderBy("createdAt", descending: true)
+        .orderBy(FieldPath.documentId, descending: true)
+        .snapshots()
+        .map((snapshot) =>
             snapshot.docs.map((doc) => Project.fromFirestore(doc)).toList());
   }
 
@@ -42,8 +46,12 @@ class FirestoreService {
   }
 
   Stream<List<Task>> getProjectTasks(String projectId) {
-    return _tasks.where("projectId", isEqualTo: projectId).snapshots().map(
-        (snapshot) =>
+    return _tasks
+        .where("projectId", isEqualTo: projectId)
+        .orderBy("createdAt")
+        .orderBy(FieldPath.documentId)
+        .snapshots()
+        .map((snapshot) =>
             snapshot.docs.map((doc) => Task.fromFirestore(doc)).toList());
   }
 
@@ -65,11 +73,10 @@ class FirestoreService {
   Stream<List<Update>> getUpdates(String projectId) {
     return _updates
         .where("projectId", isEqualTo: projectId)
-        .orderBy("dateTime", descending: true)
+        .orderBy("createdAt", descending: true)
+        .orderBy(FieldPath.documentId, descending: true)
         .snapshots()
         .map((snapshot) =>
         snapshot.docs.map((doc) => Update.fromFirestore(doc)).toList());
   }
-
-
 }
