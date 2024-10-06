@@ -21,7 +21,7 @@ class _TasksCardState extends State<TasksCard> {
     return Card(
       elevation: 5,
       color: Theme.of(context).cardColor,
-      child: Container(
+      child: SizedBox(
         height: MediaQuery.sizeOf(context).height * 0.35,
         width: MediaQuery.sizeOf(context).width * 0.95,
         child: Column(

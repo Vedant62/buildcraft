@@ -61,8 +61,9 @@ class _AddUpdatePageState extends State<AddUpdatePage> {
     print('uploaded the url: $imageUrl');
     status = statusLookup[_selectedStatus];
     final _update = Update(projectId: _project.id!, projectUpdateImageLink: imageUrl!, dateTime: DateTime.now(), status: status!);
-    firestoreService.addUpdate(_update);
+    await firestoreService.addUpdate(_update);
     print('saved update to db');
+    Navigator.of(context).pop();
   }
 
   @override
@@ -119,18 +120,18 @@ class _AddUpdatePageState extends State<AddUpdatePage> {
             ),
             SegmentedButton(
                 emptySelectionAllowed: true,
-                segments: const <ButtonSegment<String>>[
+                segments:  <ButtonSegment<String>>[
                   ButtonSegment<String>(
                     value: 'Behind',
-                    label: Text('Behind'),
+                    label: Text('Behind', style: Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 18, fontWeight: FontWeight.w300),),
                   ),
                   ButtonSegment<String>(
                     value: 'On time',
-                    label: Text('On time'),
+                    label: Text('On time', style: Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 18, fontWeight: FontWeight.w300),),
                   ),
                   ButtonSegment<String>(
                     value: 'Ahead',
-                    label: Text('Ahead'),
+                    label: Text('Ahead', style: Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 18, fontWeight: FontWeight.w300),),
                   ),
                 ],
                 selected: <String>{_selectedStatus},
@@ -142,9 +143,7 @@ class _AddUpdatePageState extends State<AddUpdatePage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: OutlinedButton(
-                onPressed: () {
-
-                },
+                onPressed: saveAndUpload,
                 child: Text(
                   'Add',
                   style: Theme.of(context)

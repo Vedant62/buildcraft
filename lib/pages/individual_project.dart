@@ -1,5 +1,6 @@
 import 'package:buildcraft/pages/add_update_page.dart';
 import 'package:buildcraft/widgets/tasks_card.dart';
+import 'package:buildcraft/widgets/updates.dart';
 import 'package:flutter/material.dart';
 
 import '../models/project.dart';
@@ -152,8 +153,9 @@ class _IndividualProjectState extends State<IndividualProject> {
 
                 ],
               ),
-
-
+              Container(
+                child: Updates(project: _project,),
+              )
             ],
           ),
         ),
