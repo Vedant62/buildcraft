@@ -102,10 +102,11 @@ class _IndividualProjectState extends State<IndividualProject> {
                       child: Center(
                         child: Text(
                           'checklist',
-                          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w300,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.titleLarge!.copyWith(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w300,
+                                  ),
                         ),
                       ),
                     ),
@@ -127,10 +128,11 @@ class _IndividualProjectState extends State<IndividualProject> {
                       child: Center(
                         child: Text(
                           'updates',
-                          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w300,
-                          ),
+                          style:
+                              Theme.of(context).textTheme.titleLarge!.copyWith(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w300,
+                                  ),
                         ),
                       ),
                     ),
@@ -145,16 +147,30 @@ class _IndividualProjectState extends State<IndividualProject> {
                     padding: const EdgeInsets.symmetric(horizontal: 4.0),
                     child: OutlinedButton(
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>AddUpdatePage(project: _project,)));
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (ctx) => AddUpdatePage(
+                                  project: _project,
+                                )));
                       },
-                      child: Text('Add update', style: Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 16, fontWeight: FontWeight.w300) ,),
+                      child: Text(
+                        'Add update',
+                        style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                            fontSize: 16, fontWeight: FontWeight.w300),
+                      ),
                     ),
                   ),
-
                 ],
               ),
-              Container(
-                child: Updates(project: _project,),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  height: 500,
+                  child: Expanded(
+                    child: Updates(
+                      project: _project,
+                    ),
+                  ),
+                ),
               )
             ],
           ),

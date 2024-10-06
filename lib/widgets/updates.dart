@@ -37,8 +37,8 @@ class _UpdatesState extends State<Updates> {
             );
           }
           if (snapshot.hasError) {
-            return const Center(
-              child: Text("There's been some error."),
+            return Center(
+              child: Text("There's been some error: ${snapshot.error}"),
             );
           }
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
@@ -50,9 +50,18 @@ class _UpdatesState extends State<Updates> {
             );
           }
           final updates = snapshot.data;
-          return ListView.builder(itemBuilder: (BuildContext context, int index) {
-            return UpdateCard(update:updates![index]);
-          },);
+          return ListView.builder(
+            itemCount: updates!.length,
+            itemBuilder: (
+              BuildContext context,
+              int index,
+            ) {
+              return Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: UpdateCard(update: updates[index]),
+              );
+            },
+          );
         });
   }
 }

@@ -49,10 +49,11 @@ class FirestoreService {
     return _tasks
         .where("projectId", isEqualTo: projectId)
         .orderBy("createdAt")
+        .orderBy("isCompleted")
         .orderBy(FieldPath.documentId)
         .snapshots()
         .map((snapshot) =>
-            snapshot.docs.map((doc) => Task.fromFirestore(doc)).toList());
+        snapshot.docs.map((doc) => Task.fromFirestore(doc)).toList());
   }
 
   Future<void> toggleTaskCompletion(String taskId) async {
@@ -73,10 +74,10 @@ class FirestoreService {
   Stream<List<Update>> getUpdates(String projectId) {
     return _updates
         .where("projectId", isEqualTo: projectId)
-        .orderBy("createdAt", descending: true)
+        .orderBy("dateTime", descending: true)
         .orderBy(FieldPath.documentId, descending: true)
         .snapshots()
         .map((snapshot) =>
-        snapshot.docs.map((doc) => Update.fromFirestore(doc)).toList());
+            snapshot.docs.map((doc) => Update.fromFirestore(doc)).toList());
   }
 }

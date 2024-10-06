@@ -63,7 +63,10 @@ class _AddUpdatePageState extends State<AddUpdatePage> {
     final _update = Update(projectId: _project.id!, projectUpdateImageLink: imageUrl!, dateTime: DateTime.now(), status: status!);
     await firestoreService.addUpdate(_update);
     print('saved update to db');
-    Navigator.of(context).pop();
+    setState(() {
+      Navigator.of(context).pop();
+    });
+
   }
 
   @override
