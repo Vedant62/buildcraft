@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:buildcraft/models/update.dart';
+import 'package:buildcraft/services/firestore.dart';
 import 'package:buildcraft/services/storage.dart';
 import 'package:buildcraft/utils/timeFormat.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -21,13 +21,25 @@ class _AddUpdatePageState extends State<AddUpdatePage> {
   bool imageSelected = false;
   late StorageService storageService;
   late Project _project;
+  late FirestoreService firestoreService;
   File? selectedImage;
+  String? imageUrl;
+  String _selectedStatus = 'On time';
+  Map<String, Status> statusLookup = {
+    'Behind': Status.late,
+    'On time': Status.onTime,
+    'Ahead': Status.ahead
+  };
+  Status? status;
+
+
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     storageService = StorageService();
+    firestoreService = FirestoreService();
     _project = widget.project;
   }
 
@@ -42,6 +54,15 @@ class _AddUpdatePageState extends State<AddUpdatePage> {
 
       // await storageService.uploadImage(selectedImage!, _project.id!);
     });
+  }
+
+  void saveAndUpload() async {
+    imageUrl = await storageService.uploadImage(selectedImage!, _project.id!);
+    print('uploaded the url: $imageUrl');
+    status = statusLookup[_selectedStatus];
+    final _update = Update(projectId: _project.id!, projectUpdateImageLink: imageUrl!, dateTime: DateTime.now(), status: status!);
+    firestoreService.addUpdate(_update);
+    print('saved update to db');
   }
 
   @override
@@ -85,7 +106,9 @@ class _AddUpdatePageState extends State<AddUpdatePage> {
                     ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              padding: const EdgeInsets.symmetric(
+                vertical: 12.0,
+              ),
               child: Text(
                 formatTimeOfDay(TimeOfDay.now()),
                 style: Theme.of(context)
@@ -94,6 +117,43 @@ class _AddUpdatePageState extends State<AddUpdatePage> {
                     .copyWith(fontWeight: FontWeight.w300),
               ),
             ),
+            SegmentedButton(
+                emptySelectionAllowed: true,
+                segments: const <ButtonSegment<String>>[
+                  ButtonSegment<String>(
+                    value: 'Behind',
+                    label: Text('Behind'),
+                  ),
+                  ButtonSegment<String>(
+                    value: 'On time',
+                    label: Text('On time'),
+                  ),
+                  ButtonSegment<String>(
+                    value: 'Ahead',
+                    label: Text('Ahead'),
+                  ),
+                ],
+                selected: <String>{_selectedStatus},
+                onSelectionChanged: (Set<String> newSelection) {
+                  setState(() {
+                    _selectedStatus = newSelection.first;
+                  });
+                }),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: OutlinedButton(
+                onPressed: () {
+
+                },
+                child: Text(
+                  'Add',
+                  style: Theme.of(context)
+                      .textTheme
+                      .labelLarge!
+                      .copyWith(fontSize: 16, fontWeight: FontWeight.w300),
+                ),
+              ),
+            )
           ],
         ),
       ),

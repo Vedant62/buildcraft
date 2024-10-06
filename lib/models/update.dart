@@ -2,14 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Update {
   Update({
-    required this.id,
+    this.id,
     required this.projectId,
     required this.projectUpdateImageLink,
     required this.dateTime,
     required this.status,
   });
 
-  final String id;
+  final String? id;
   final String projectId;
   final String projectUpdateImageLink;
   final DateTime dateTime;
